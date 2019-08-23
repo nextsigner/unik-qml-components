@@ -15,7 +15,7 @@ $:nano .bash_aliases
 
 alias g='getUnikQmlComponent'
 function getUnikQmlComponent(){
-        wget https://raw.githubusercontent.com/nextsigner/unik-qml-components/m$
+        wget https://raw.githubusercontent.com/nextsigner/unik-qml-components/master/$(echo "$1").qml
 }
 
 ### Nota: En GNU/Linux los archivos que comienzan con un punto son ocultos.
