@@ -14,8 +14,11 @@ $:nano .bash_aliases
 * Pegar el siguiente còdigo y guardar los cambios: 
 
 alias g='getUnikQmlComponent'
+
 function getUnikQmlComponent(){
+
         wget https://raw.githubusercontent.com/nextsigner/unik-qml-components/master/$(echo "$1").qml
+
 }
 
 ### Nota: En GNU/Linux los archivos que comienzan con un punto son ocultos.
