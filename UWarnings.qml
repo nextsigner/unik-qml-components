@@ -11,6 +11,7 @@ Rectangle{
     visible: false
     clip: true
     property bool notShowAgain: false
+    property alias text: txtUWarnings.text
     Connections {
         target: unik
         onUWarningChanged: {
