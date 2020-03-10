@@ -12,14 +12,15 @@ Rectangle {
     border.width: 0
     antialiasing: true
     property int customRadius: -1
-    property int customBorder: -1
+    property int customBorderWidth: -1
+    property string customBorderColor: ''
     property var settingObj
     property int padding: 0
     property int fontSize: app.fs
     property bool canceled: false
     property alias text: a.text
     property string t2
-    property color backgroudColor: app.c1
+    property color backgroundColor: app.c1
     property color fontColor: app.c2
     property string fontFamily: 'Arial'
     property var objToRunQml
@@ -29,13 +30,14 @@ Rectangle {
     property alias pressed: maBX.p
     property alias hovered: maBX.e
     property alias bg: xR1
+    property alias glow: glow1
     signal clicked
 
     Rectangle{
         id: xR1
         color: 'transparent'
-        border.width: r.customBorder===-1?unikSettings.borderWidth:r.customBorder
-        border.color: app.c3
+        border.width: r.customBorderWidth===-1?unikSettings.borderWidth:r.customBorderWidth
+        border.color: r.customBorderColor===''?app.c3:r.customBorderColor
         radius: r.radius//unikSettings.radius
         width: parent.width
         height: parent.height
@@ -48,7 +50,7 @@ Rectangle {
             height: parent.height
             radius: r.radius
             anchors.centerIn: parent
-            color: app.c2
+            color: r.fontColor
             antialiasing: true
             Behavior on opacity{NumberAnimation{duration:r.speed}}
         }
@@ -137,16 +139,17 @@ Rectangle {
         text:a.text
         font.pixelSize: r.fontSize
         font.family: r.fontFamily
-        color: r.backgroudColor
+        color: r.backgroundColor
         anchors.centerIn: xR1
         opacity: 0.0
         Behavior on x{NumberAnimation{duration:200}}
     }
     Glow {
+        id: glow1
         anchors.fill: a
         radius: 6
         samples: 15
-        color: app.c1
+        color: r.backgroundColor
         source: a
         opacity: 1.0
     }
