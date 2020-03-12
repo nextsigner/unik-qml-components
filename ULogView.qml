@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.12
 
 Rectangle{
-    id: xUWarnings
+    id: xULogView
     width: app.width-app.fs
     height:parent.height
     color: app.c1
@@ -10,34 +10,22 @@ Rectangle{
     border.color: app.c2
     visible: false
     clip: true
-    property bool showEnabled: true
     property bool notShowAgain: false
-    property var arrayErrorsShowed: []
-    Connections {
+    /*Connections {
         target: unik
         onUWarningChanged: {
-            if((''+Qt.application.arguments).indexOf('-fuw')>=0){
-                xUWarnings.showEnabled=true
+            txtULogView.text+=''+unik.getUWarning()+'<br /><br />';
+            if(!xULogView.notShowAgain){
+                xULogView.visible=true
             }
-            if(!xUWarnings.showEnabled){
-                return
-            }
-            if(arrayErrorsShowed.indexOf(unik.getUWarning())<0){
-                arrayErrorsShowed.push(unik.getUWarning())
-                txtUWarnings.text+=''+unik.getUWarning()+'<br /><br />';
-                if(!xUWarnings.notShowAgain){
-                    xUWarnings.visible=true
-                }
-            }
-
         }
-    }
+    }*/
     Flickable{
         id: flickUW
         width: parent.width-app.fs
         height: parent.height-app.fs
         contentWidth: width
-        contentHeight: txtUWarnings.contentHeight
+        contentHeight: txtULogView.contentHeight
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: app.fs
@@ -49,7 +37,7 @@ Rectangle{
             anchors.bottom: flickUW.bottom
         }
         Text {
-            id: txtUWarnings
+            id: txtULogView
             text: unikSettings.lang==='es'?'<b>Unik Advertencias</b><br /><br />':'<b>Unik Warnings</b><br /><br />'
             font.pixelSize: app.fs
             color: app.c2
@@ -57,7 +45,7 @@ Rectangle{
             wrapMode: Text.WordWrap
             textFormat: Text.RichText
             onTextChanged: {
-                if(flickUW.contentHeight>xUWarnings.height-app.fs){
+                if(flickUW.contentHeight>xULogView.height-app.fs){
                     flickUW.contentY=flickUW.contentHeight-flickUW.height
                 }
             }
@@ -65,7 +53,7 @@ Rectangle{
     }
     Boton{//Close
         id: btnCloseXUWarning
-        w:app.fs*2
+        w:app.fs
         h: w
         t: "\uf00d"
         d:unikSettings.lang==='es'?'Cerrar':'Close'
@@ -76,12 +64,12 @@ Rectangle{
         anchors.top: parent.top
         anchors.topMargin: app.fs*0.5
         onClicking: {
-            xUWarnings.visible=false
+            xULogView.visible=false
         }
     }
     Boton{//Close for ever
         id: btnCloseXUWarningNotAgain
-        w:app.fs*2
+        w:app.fs
         h: w
         t: "\uf011"
         d:unikSettings.lang==='es'?'Cerrar - No mostrar mas':'Close - Not Show Again'
@@ -91,13 +79,13 @@ Rectangle{
         anchors.top: btnCloseXUWarning.bottom
         anchors.topMargin: app.fs*0.5
         onClicking: {
-            xUWarnings.notShowAgain=true
-            xUWarnings.visible=false
+            xULogView.notShowAgain=true
+            xULogView.visible=false
         }
     }
     Boton{//Clear
         id: btnCloseXUWarningClear
-        w:app.fs*2
+        w:app.fs
         h: w
         t: "\uf12d"
         d:unikSettings.lang==='es'?'Limpiar':'Clear'
@@ -107,7 +95,13 @@ Rectangle{
         anchors.top: btnCloseXUWarningNotAgain.bottom
         anchors.topMargin: app.fs*0.5
         onClicking: {
-            txtUWarnings.text=unikSettings.lang==='es'?'<b>Unik Advertencias</b><br /><br />':'<b>Unik Warnings</b><br /><br />'
+            txtULogView.text=unikSettings.lang==='es'?'<b>Unik Advertencias</b><br /><br />':'<b>Unik Warnings</b><br /><br />'
+        }
+    }
+    function showLog(logData){
+        txtULogView.text+=''+logData+'<br /><br />';
+        if(!xULogView.notShowAgain){
+            xULogView.visible=true
         }
     }
 }

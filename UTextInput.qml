@@ -35,6 +35,14 @@ Item{
             border.width: unikSettings.borderWidth
             border.color: r.fontColor
             radius: unikSettings.radius
+            Rectangle{
+                anchors.fill: parent
+                color: !tiData.focus?app.c2:'transparent'
+                opacity: !tiData.focus?0.25:1.0
+                radius: parent.radius
+                border.width: !tiData.focus?unikSettings.borderWidth:unikSettings.borderWidth+1
+                border.color: r.fontColor
+            }
             TextInput{
                 id: tiData
                 font.pixelSize: app.fs
