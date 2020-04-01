@@ -3,14 +3,17 @@ import QtQuick 2.0
 Item{
     id:r
     width: parent.width
-    height: app.fs*2
+    height: r.fontSize*2
+    property alias textInput:tiData
     property alias text:tiData.text
+    property alias textInputContainer: rectXTextInput
     property string dataType: 'text'
     property alias maximumLength: tiData.maximumLength
     property alias focusTextInput:tiData.focus
     property alias customCursor: rectCursor
     property string label: 'Input: '
     property color fontColor: app.c2
+    property int fontSize: app.fs
     property int customHeight: -1
     property RegExpValidator regularExp
     signal seted(string text)
@@ -25,13 +28,14 @@ Item{
             id: label
             text: r.label
             font.family: unikSettings.fontFamily
-            font.pixelSize: app.fs
+            font.pixelSize: r.fontSize
             color: r.fontColor
             anchors.verticalCenter: parent.verticalCenter
         }
         Rectangle{
+            id: rectXTextInput
             width: r.width-label.contentWidth-parent.spacing
-            height: r.customHeight===-1?app.fs*2:r.customHeight
+            height: r.customHeight===-1?r.fontSize*2:r.customHeight
             color: 'transparent'
             border.width: unikSettings.borderWidth
             border.color: r.fontColor
@@ -41,15 +45,15 @@ Item{
                 color: !tiData.focus?app.c2:'transparent'
                 opacity: !tiData.focus?0.25:1.0
                 radius: parent.radius
-                border.width: !tiData.focus?unikSettings.borderWidth:unikSettings.borderWidth+1
-                border.color: r.fontColor
+                border.width: !tiData.focus?rectXTextInput.border.width:rectXTextInput.border.width+1
+                border.color: rectXTextInput.border.color
             }
             TextInput{
                 id: tiData
-                font.pixelSize: app.fs
+                font.pixelSize: r.fontSize
                 //focus: true
-                width: parent.width-app.fs
-                height: app.fs
+                width: parent.width-r.fontSize
+                height: r.fontSize
                 clip: true
                 anchors.centerIn: parent
                 onTextChanged: r.textChanged(text)
@@ -66,8 +70,8 @@ Item{
     Component{
         id: rectCursor
         Rectangle {
-            color: app.c2
-            width: app.fs*0.25
+            color: r.fontColor
+            width: r.fontSize*0.25
             Timer{
                 running: true
                 repeat: true
@@ -78,7 +82,6 @@ Item{
                     }else{
                         parent.visible=false
                     }
-
                 }
             }
         }
