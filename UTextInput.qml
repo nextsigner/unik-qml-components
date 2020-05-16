@@ -6,6 +6,7 @@ Item{
     height: r.fontSize*2
     property var us: app&&app.us?app.us:unikSettings
     property alias textInput:tiData
+    property int diffWidth: width-label.contentWidth
     property alias text:tiData.text
     property alias textInputContainer: rectXTextInput
     property string dataType: 'text'
